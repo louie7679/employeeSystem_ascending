@@ -1,11 +1,25 @@
 package org.example.training.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "departments")
 public class Department {
+
     public Department() {}
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private long id;
+
+    @Column(name="name")
     private String name;
+
+    @Column(name="description")
     private String description;
+
+    @Column(name="location")
     private String location;
 
     public void setId(long id) {
