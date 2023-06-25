@@ -1,6 +1,6 @@
-package org.example.training.repository;
+package org.example.repository;
 
-import org.example.training.model.Department;
+import org.example.model.Department;
 
 import java.util.List;
 
