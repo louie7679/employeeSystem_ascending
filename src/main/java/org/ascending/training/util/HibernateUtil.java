@@ -1,4 +1,4 @@
-package org.example.util;
+package org.ascending.training.util;
 
 import com.github.fluent.hibernate.cfg.scanner.EntityScanner;
 import org.hibernate.HibernateException;

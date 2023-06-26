@@ -1,4 +1,4 @@
-package org.example.model;
+package org.ascending.training.model;
 
 import javax.persistence.*;
 

@@ -1,4 +1,4 @@
-package org.example;
+package org.ascending.training;
 
 /**
  * Hello world!

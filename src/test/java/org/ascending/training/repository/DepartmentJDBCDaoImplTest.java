@@ -1,6 +1,5 @@
-package org.example.repository;
+package org.ascending.training.repository;
 
-import org.example.repository.DepartmentJDBCDaoImpl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
