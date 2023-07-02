@@ -18,11 +18,16 @@ public class DepartmentJDBCDaoImpl implements IDepartmentDao{
     static final String PASS = "Training123!";
 
     @Override
+    public void save(Department department) {
+
+    }
+
+    @Override
     public List<Department> getDepartments() {
         Logger logger = LoggerFactory.getLogger(getClass());
         logger.debug("Start to getDepartments from Postgres via JDBC.");
         //Step1: Prepare the required data model
-        List<Department> departments = new ArrayList<Department>();
+        List<Department> departments = new ArrayList<>();
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
@@ -69,5 +74,15 @@ public class DepartmentJDBCDaoImpl implements IDepartmentDao{
         }
         logger.info("Finish getDepartments {}", departments);
         return departments;
+    }
+
+    @Override
+    public Department getById(Long id) {
+        return null;
+    }
+
+    @Override
+    public void delete(Department department) {
+
     }
 }

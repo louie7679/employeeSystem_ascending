@@ -21,7 +21,6 @@ public class DepartmentJDBCDaoImplTest {
 
     @Test
     public void getDepartmentsTest() {
-        DepartmentJDBCDaoImpl departmentDao = new DepartmentJDBCDaoImpl();
         assertEquals(0, departmentDao.getDepartments().size());
     }
 }
