@@ -1,6 +1,7 @@
 package org.ascending.training.model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "departments")
@@ -21,6 +22,9 @@ public class Department {
 
     @Column(name="location")
     private String location;
+
+    @OneToMany(mappedBy = "department", cascade = CascadeType.REMOVE, fetch = ())
+    private Set<Employee> employees;
 
     public void setId(long id) {
         this.id = id;

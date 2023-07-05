@@ -5,6 +5,7 @@ import org.ascending.training.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,11 +18,19 @@ public class DepartmentHibernateDaoImpl implements IDepartmentDao{
     @Override
     public void save(Department department) {
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Transaction transaction = null;
         try {
             Session session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+
             session.save(department);
+            transaction.commit();
             session.close();
-        } catch (HibernateException e) {
+        } catch(HibernateException e) {
+            if(transaction != null) {
+                logger.error("Save transaction failed, rolling back");
+                transaction.rollback();
+            }
             logger.error("Open session exception or close session exception", e);
         }
     }
@@ -31,19 +40,19 @@ public class DepartmentHibernateDaoImpl implements IDepartmentDao{
         logger.info("Start to getDepartments from Postgres via Hibernate.");
         //Prepare the required data model
         List<Department> departments = new ArrayList<>();
-
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
         try {
+            //Open a connection
             Session session = sessionFactory.openSession();
-
+            //Execute a query
             String hql = "from Department";
+            //Extract data from result set
             Query<Department> query = session.createQuery(hql);
-
             departments = query.list();
-
+            //Close resources
             session.close();
-        } catch (HibernateException e) {
+        } catch(HibernateException e) {
             logger.error("Open session exception or close session exception", e);
         }
 
@@ -57,14 +66,10 @@ public class DepartmentHibernateDaoImpl implements IDepartmentDao{
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         try {
             Session session = sessionFactory.openSession();
-            session.beginTransaction();
-
-            // Retrieve the object to be updated
+            //Retrieve the object to be updated
             objectToUpdate = session.get(Department.class, id);
-
-            session.getTransaction().commit();
             session.close();
-        } catch (HibernateException e) {
+        } catch(HibernateException e) {
             logger.error("Open session exception or close session exception", e);
         }
         return objectToUpdate;
@@ -73,14 +78,24 @@ public class DepartmentHibernateDaoImpl implements IDepartmentDao{
     @Override
     public void delete(Department department) {
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Transaction transaction = null;
         try {
             Session session = sessionFactory.openSession();
-            session.beginTransaction();
+            transaction = session.beginTransaction();
             session.delete(department);
-            session.getTransaction().commit();
+            transaction.commit();
             session.close();
         } catch(HibernateException e) {
+            if(transaction != null) {
+                logger.error("Delete transaction failed, rolling back");
+                transaction.rollback();
+            }
             logger.error("Open session exception or close session exception", e);
         }
+    }
+
+    @Override
+    public Department getDepartmentEagerBy(Long id) {
+        return null;
     }
 }

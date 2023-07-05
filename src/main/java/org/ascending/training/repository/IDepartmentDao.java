@@ -17,4 +17,5 @@ public interface IDepartmentDao {
      // Delete
      void delete(Department department);
 
+     Department getDepartmentEagerBy(Long id);
 }
