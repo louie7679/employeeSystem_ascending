@@ -13,8 +13,10 @@ public class Account {
     @Id
     @Column(name = "id")
     private long id;
+
     @Column(name = "account_type")
     private String accountType;
+
     @Column(name = "balance")
     private BigDecimal balance;
 
@@ -26,15 +28,18 @@ public class Account {
     private Employee employee;
 
     public long getId() { return id; }
+
     public void setId(long id) { this.id = id; }
 
     public String getAccountType() { return accountType; }
+
     public void setAccountType(String accountType) { this.accountType = accountType; }
 
     public BigDecimal getBalance() { return balance; }
 
     public void setBalance(BigDecimal balance) { this.balance = balance; }
 
-//    public Employee getEmployee() { return employee; }
-//    public void setEmployee(Employee employee) { this.employee = employee; }
+    public Employee getEmployee() { return employee; }
+
+    public void setEmployee(Employee employee) { this.employee = employee; }
 }

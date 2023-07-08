@@ -23,22 +23,46 @@ public class Department {
     @Column(name="location")
     private String location;
 
-    @OneToMany(mappedBy = "department", cascade = CascadeType.REMOVE, fetch = ())
+    @OneToMany(mappedBy = "department", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private Set<Employee> employees;
 
     public void setId(long id) {
         this.id = id;
     }
 
+    public long getId() {
+        return id;
+    }
+
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setEmployees(Set<Employee> employees) {
+        this.employees = employees;
+    }
+
+    public Set<Employee> getEmployees() {
+        return employees;
     }
 }

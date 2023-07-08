@@ -96,6 +96,17 @@ public class DepartmentHibernateDaoImpl implements IDepartmentDao{
 
     @Override
     public Department getDepartmentEagerBy(Long id) {
-        return null;
-    }
+        String hql = "FROM Department d LEFT JOIN FETCH d.employees where d.id = :Id"; //LEFT JOIN FETCH: HQL里面的left join
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            Query<Department> query = session.createQuery(hql);
+            query.setParameter("Id", id);
+            Department result = query.uniqueResult();
+            session.close();
+            return result;
+        } catch (HibernateException e) {
+            logger.error("failed to retrieve data record", e);
+            session.close();
+            return null;
+        }    }
 }
