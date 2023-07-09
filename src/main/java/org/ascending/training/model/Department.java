@@ -9,6 +9,13 @@ public class Department {
 
     public Department() {}
 
+    public Department(long id, String name, String description, String location) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.location = location;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

@@ -108,5 +108,6 @@ public class DepartmentHibernateDaoImpl implements IDepartmentDao{
             logger.error("failed to retrieve data record", e);
             session.close();
             return null;
-        }    }
+        }
+    }
 }
