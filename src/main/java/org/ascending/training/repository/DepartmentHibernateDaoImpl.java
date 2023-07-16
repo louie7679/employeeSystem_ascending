@@ -9,20 +9,26 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class DepartmentHibernateDaoImpl implements IDepartmentDao{
     private static final Logger logger = LoggerFactory.getLogger(DepartmentHibernateDaoImpl.class);
+
+    @Autowired
+    private SessionFactory sessionFactory;
+
     @Override
     public void save(Department department) {
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        //SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Transaction transaction = null;
         try {
             Session session = sessionFactory.openSession();
             transaction = session.beginTransaction();
-
             session.save(department);
             transaction.commit();
             session.close();
@@ -40,7 +46,7 @@ public class DepartmentHibernateDaoImpl implements IDepartmentDao{
         logger.info("Start to getDepartments from Postgres via Hibernate.");
         //Prepare the required data model
         List<Department> departments = new ArrayList<>();
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        // SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
         try {
             //Open a connection
@@ -54,6 +60,7 @@ public class DepartmentHibernateDaoImpl implements IDepartmentDao{
             session.close();
         } catch(HibernateException e) {
             logger.error("Open session exception or close session exception", e);
+            throw e; // Rethrow the exception to match the expected behavior
         }
 
         logger.info("Get departments {}", departments);
@@ -63,7 +70,7 @@ public class DepartmentHibernateDaoImpl implements IDepartmentDao{
     @Override
     public Department getById(Long id) {
         Department objectToUpdate = null;
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        //SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         try {
             Session session = sessionFactory.openSession();
             //Retrieve the object to be updated
@@ -77,7 +84,7 @@ public class DepartmentHibernateDaoImpl implements IDepartmentDao{
 
     @Override
     public void delete(Department department) {
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        //SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Transaction transaction = null;
         try {
             Session session = sessionFactory.openSession();
@@ -97,14 +104,15 @@ public class DepartmentHibernateDaoImpl implements IDepartmentDao{
     @Override
     public Department getDepartmentEagerBy(Long id) {
         String hql = "FROM Department d LEFT JOIN FETCH d.employees where d.id = :Id"; //LEFT JOIN FETCH: HQL里面的left join
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        //Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         try {
             Query<Department> query = session.createQuery(hql);
             query.setParameter("Id", id);
             Department result = query.uniqueResult();
             session.close();
             return result;
-        } catch (HibernateException e) {
+        } catch(HibernateException e) {
             logger.error("failed to retrieve data record", e);
             session.close();
             return null;

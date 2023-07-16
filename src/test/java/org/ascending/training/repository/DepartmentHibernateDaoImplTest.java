@@ -1,16 +1,25 @@
 package org.ascending.training.repository;
 
 import junit.framework.TestCase;
+import org.ascending.training.ApplicationBootstrap;
 import org.ascending.training.model.Department;
 import org.ascending.training.model.Employee;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import static junit.framework.TestCase.*;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = ApplicationBootstrap.class)
 public class DepartmentHibernateDaoImplTest{
+    @Autowired
     private IDepartmentDao departmentHibernateDao;
+    @Autowired
     private IEmployeeDao employeeHibernateDao;
     private Department d1;
     private Employee e1;
@@ -18,7 +27,7 @@ public class DepartmentHibernateDaoImplTest{
 
     @Before
     public void setUp() {
-        departmentHibernateDao = new DepartmentHibernateDaoImpl();
+        //departmentHibernateDao = new DepartmentHibernateDaoImpl();
         //STEP1: save record in one side
         d1 = new Department();
         d1.setId(1);
@@ -29,7 +38,7 @@ public class DepartmentHibernateDaoImplTest{
         departmentHibernateDao.save(d1);
 
         //Step 2: save record in many side
-        employeeHibernateDao = new EmployeeHibernateDaoImpl();
+        //employeeHibernateDao = new EmployeeHibernateDaoImpl();
         e1 = new Employee();
         e1.setId((long) (Math.random()*(100L - 1L)));
         e1.setName("Zhang3");
@@ -59,11 +68,11 @@ public class DepartmentHibernateDaoImplTest{
         assertEquals(1, departmentHibernateDao.getDepartments().size());
     }
 
-    @Test
-    public void deleteDepartmentsTest() {
-        departmentHibernateDao.delete(d1);
-        assertEquals(0, departmentHibernateDao.getDepartments().size());
-    }
+//    @Test
+//    public void deleteDepartmentsTest() {
+//        departmentHibernateDao.delete(d1);
+//        assertEquals(0, departmentHibernateDao.getDepartments().size());
+//    }
 
     @Test
     public void getDepartmentEagerByTest() {

@@ -68,7 +68,7 @@ public class DepartmentHibernateDaoTest {
             when(mockSessionFactory.openSession()).thenReturn(mockSession);
             when(mockSession.createQuery(any(String.class))).thenReturn(mockQuery);
             when(mockQuery.list()).thenReturn(result);
-            doThrow(HibernateException.class).when(mockSession).close();
+            doThrow(HibernateException.class).doNothing().when(mockSession).close();
 
             assertThrows(HibernateException.class, () -> departmentDao.getDepartments());
 
