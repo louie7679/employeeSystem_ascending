@@ -1,4 +1,6 @@
 package org.ascending.training.model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 
@@ -25,6 +27,7 @@ public class Account {
 
     @ManyToOne
     @JoinColumn(name = "employee_id")
+    @JsonIgnore
     private Employee employee;
 
     public long getId() { return id; }

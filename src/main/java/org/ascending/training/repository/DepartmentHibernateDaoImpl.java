@@ -67,19 +67,36 @@ public class DepartmentHibernateDaoImpl implements IDepartmentDao{
         return departments;
     }
 
+//    @Override
+//    public Department getById(Long id) {
+//        Department objectToUpdate = null;
+//        //SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+//        try {
+//            Session session = sessionFactory.openSession();
+//            //Retrieve the object to be updated
+//            objectToUpdate = session.get(Department.class, id);
+//            session.close();
+//        } catch(HibernateException e) {
+//            logger.error("Open session exception or close session exception", e);
+//        }
+//        return objectToUpdate;
+//    }
+
     @Override
     public Department getById(Long id) {
-        Department objectToUpdate = null;
-        //SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Session s = sessionFactory.openSession();
+        String hql = "FROM Department d where id = :Id";
         try {
-            Session session = sessionFactory.openSession();
-            //Retrieve the object to be updated
-            objectToUpdate = session.get(Department.class, id);
-            session.close();
-        } catch(HibernateException e) {
-            logger.error("Open session exception or close session exception", e);
+            Query<Department> query = s.createQuery(hql);
+            query.setParameter("Id", id);
+            Department result = query.uniqueResult();
+            s.close();
+            return result;
+        } catch (HibernateException e) {
+            logger.error("Session close exception try again", e);
+            s.close();
+            return null;
         }
-        return objectToUpdate;
     }
 
     @Override
@@ -117,5 +134,27 @@ public class DepartmentHibernateDaoImpl implements IDepartmentDao{
             session.close();
             return null;
         }
+    }
+
+    @Override
+    public Department update(Department department) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            session.update(department);
+            transaction.commit();
+            Department d = getById(department.getId());
+            session.close();
+            return d;
+        } catch (HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            logger.error("failed to insert record", e);
+            session.close();
+            return null;
+        }
+
     }
 }

@@ -65,7 +65,7 @@ public class DepartmentHibernateDaoImplTest{
 
     @Test
     public void getDepartmentsTest() {
-        assertEquals(1, departmentHibernateDao.getDepartments().size());
+        assertEquals(2, departmentHibernateDao.getDepartments().size());
     }
 
 //    @Test

@@ -20,7 +20,7 @@ public class DepartmentService {
         return departmentDao.getDepartments();
     }
 
-    public Department update(Department department) {
+    public Department getDepartmentById(Department department) {
         return departmentDao.getById(department.getId());
     }
 
@@ -30,5 +30,13 @@ public class DepartmentService {
 
     public Department getDepartmentEager(long id) {
         return departmentDao.getDepartmentEagerBy(id);
+    }
+
+    public Department getBy(Long id) {
+        return departmentDao.getById(id);
+    }
+
+    public Department update(Department department) {
+        return departmentDao.update(department);
     }
 }
