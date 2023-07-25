@@ -27,18 +27,15 @@ public class DepartmentHibernateDaoImplTest{
 
     @Before
     public void setUp() {
-        //departmentHibernateDao = new DepartmentHibernateDaoImpl();
         //STEP1: save record in one side
         d1 = new Department();
         d1.setId(1);
-        // d1.setId((long) (Math.random()*(100L - 1L)));
         d1.setName("hr");
         d1.setDescription("random description");
         d1.setLocation("US");
         departmentHibernateDao.save(d1);
 
         //Step 2: save record in many side
-        //employeeHibernateDao = new EmployeeHibernateDaoImpl();
         e1 = new Employee();
         e1.setId((long) (Math.random()*(100L - 1L)));
         e1.setName("Zhang3");

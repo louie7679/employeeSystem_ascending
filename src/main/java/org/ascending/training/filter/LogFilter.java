@@ -29,10 +29,12 @@ public class LogFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         long startTime = System.currentTimeMillis();
         logger.info("This is logger filter preprocessing");
-        //HttpServletRequest req = (HttpServletRequest)servletRequest;
+        HttpServletRequest req = (HttpServletRequest)servletRequest;
+        String logInfo = logInfo(req);
         filterChain.doFilter(servletRequest, servletResponse);
         //logger.info("This is logger filter postprocessing");
         long endTime = System.currentTimeMillis();
+        logger.info(logInfo.replace("responseTime", String.valueOf(endTime - startTime)));
     }
 
     @Override

@@ -28,7 +28,7 @@ public class DepartmentService {
         departmentDao.delete(department);
     }
 
-    public Department getDepartmentEager(long id) {
+    public Department getDepartmentEager(Long id) {
         return departmentDao.getDepartmentEagerBy(id);
     }
 

@@ -25,9 +25,9 @@ public class DepartmentHibernateDaoImpl implements IDepartmentDao{
     @Override
     public void save(Department department) {
         //SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Session session = sessionFactory.openSession();
         Transaction transaction = null;
         try {
-            Session session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             session.save(department);
             transaction.commit();
@@ -38,6 +38,7 @@ public class DepartmentHibernateDaoImpl implements IDepartmentDao{
                 transaction.rollback();
             }
             logger.error("Open session exception or close session exception", e);
+            session.close();
         }
     }
 
@@ -155,6 +156,5 @@ public class DepartmentHibernateDaoImpl implements IDepartmentDao{
             session.close();
             return null;
         }
-
     }
 }
