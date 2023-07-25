@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 //public class AuthController {
 //    @Autowired
 //    private JWTService jwtService;
+//
 //    public String userLogin(String userNameOrEmail, String password) {
-//        User user
+//        User user =
 //        return jwtService.generateToken(userNameOrEmail);
 //    }
 //}

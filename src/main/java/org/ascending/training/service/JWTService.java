@@ -18,7 +18,7 @@ import java.util.Date;
 public class JWTService {
     private Logger logger = LoggerFactory.getLogger(getClass());
     // put it into VM option and read it out
-    private final String SECRET_KEY = "tengfei-ascending";
+    private final String SECRET_KEY = System.getProperty("SECRET_KEY");
     private final String ISSUER = "com.ascending";
     private final long EXPIRATION_TIME = 86400 * 1000;
 

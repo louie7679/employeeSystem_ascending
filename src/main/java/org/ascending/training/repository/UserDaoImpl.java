@@ -1,6 +1,7 @@
 package org.ascending.training.repository;
 
 import org.ascending.training.model.User;
+import org.ascending.training.repository.exception.UserNotFoundException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -32,8 +33,9 @@ public class UserDaoImpl implements IUserDao{
     }
 
     @Override
-    public User getUserByCredentials(String email, String password) {
+    public User getUserByCredentials(String email, String password) throws UserNotFoundException {
         String hql = "FROM User as u where (lower(u.email) = :email or lower(u.name) = :email) and u.password = :password";
+        logger.info(String.format("User email: %s, password: %s", email, password));
 
         try{
             Session session = sessionFactory.openSession();
