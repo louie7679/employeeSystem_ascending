@@ -21,7 +21,7 @@ public class AuthController {
     private UserService userService;
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public ResponseEntity userLogin(@RequestBody User user) throws Exception{
+    public ResponseEntity userLogin(@RequestBody User user) throws Exception {
         try {
             // String digestPassword = DigestUtils.md5Hex(user.getPassword().trim());
             // User user = userService.getUserByCredentials(user.getEmail(), digestPassword);

@@ -16,14 +16,14 @@ import static org.junit.Assert.assertTrue;
 @SpringBootTest(classes = ApplicationBootstrap.class)
 public class JWTServiceTest {
     @Autowired
-    private JWTService jtwService;
+    private JWTService jwtService;
 
     @Test
     public void generateTokenTest() {
         User u = new User();
         u.setId(1);
         u.setName("Tengfei");
-        String token = jtwService.generateToken(u);
+        String token = jwtService.generateToken(u);
         String[] array = token.split("\\.");
         boolean bool = array.length == 3 ? true : false;
         assertTrue(bool);
@@ -34,9 +34,9 @@ public class JWTServiceTest {
         User user = new User();
         user.setId(1);
         user.setName("Tengfei");
-        String token = jtwService.generateToken(user);
+        String token = jwtService.generateToken(user);
 
-        Claims claims = jtwService.decryptToken(token);
+        Claims claims = jwtService.decryptToken(token);
         String userName = claims.getSubject();
 
         assertEquals(user.getName(), userName);

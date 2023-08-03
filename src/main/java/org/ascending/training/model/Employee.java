@@ -3,6 +3,7 @@ package org.ascending.training.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -106,5 +107,39 @@ public class Employee {
 
     public void setAccounts(Set<Account> accounts) {
         this.accounts = accounts;
+    }
+
+    @Override
+    public int hashCode() {
+//        final int prime = 31;
+//        int result = 1;
+//        result = prime * result + (int)id;
+//        result = prime * result + name.hashCode()
+//        result = prime * result + firstName.hashCode();
+//        result = prime * result + lastName.hashCode();
+//        result = prime * result + email.hashCode();
+//        result = prime * result + address.hashCode();
+//        return result;
+
+        return Objects.hash(id, name, firstName, lastName, email, address);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Employee employee = (Employee) o;
+        return id == employee.id &&
+                name.equals(employee.name) &&
+                Objects.equals(firstName, employee.firstName) &&
+                Objects.equals(lastName, employee.lastName) &&
+                Objects.equals(email, employee.email) &&
+                Objects.equals(address, employee.address);
     }
 }

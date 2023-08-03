@@ -71,7 +71,8 @@ public class UserDaoImpl implements IUserDao{
             logger.error("Session close exception try again", e);
             session.close();
             return null;
-        }    }
+        }
+    }
 
     @Override
     public User getUserByCredentials(String email, String password) throws UserNotFoundException {

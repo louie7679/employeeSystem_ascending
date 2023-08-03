@@ -9,16 +9,22 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @Column(name = "name")
     private String name;
+
     @Column(name = "allowed_resource")
     private String allowedResource;
+
     @Column(name = "allowed_read")
     private Boolean allowedRead;
+
     @Column(name = "allowed_create")
     private Boolean allowedCreate;
+
     @Column(name = "allowed_update")
     private Boolean allowedUpdate;
+
     @Column(name = "allowed_delete")
     private Boolean allowedDelete;
 
@@ -87,5 +93,21 @@ public class Role {
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    public boolean isAllowedRead() {
+        return allowedRead;
+    }
+
+    public boolean isAllowedCreate() {
+        return allowedCreate;
+    }
+
+    public boolean isAllowedUpdate() {
+        return allowedUpdate;
+    }
+
+    public boolean isAllowedDelete() {
+        return allowedDelete;
     }
 }

@@ -26,9 +26,7 @@ public class SecurityFilter implements Filter {
     private UserService userService;
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
     private static final Set<String> ALLOWED_PATHS = new HashSet<>(Arrays.asList("", "/login", "logout", "register"));
-
     private static final Set<String> IGNORED_PATH = new HashSet<>(Arrays.asList("/auth"));
 
     @Override
@@ -55,19 +53,39 @@ public class SecurityFilter implements Filter {
             return HttpServletResponse.SC_ACCEPTED;
         }
 
+        String verb = req.getMethod();
+
         try {
-            String token = req.getHeader("Authorization").replaceAll("^(.*?)", "");
-            if (token == null || token.isEmpty()){
+            String token = req.getHeader("Authorization").replaceAll("^(.*?) ", "");
+            if (token == null || token.isEmpty())
                 return statusCode;
-            }
 
             Claims claims = jwtService.decryptToken(token);
-            logger.info("===== after paring JWT token, claims.getId()={}", claims.getId());
-
+            logger.info("===== after parsing JWT token, claims.getId()={}", claims.getId());
+            //TODO pass username and check role
             if (claims.getId() != null) {
                 User u = userService.getUserById(Long.valueOf(claims.getId()));
-                if (u != null) {
+                //加redis cache
+                if (u == null) {
+                    return statusCode;
+                }
+            }
+
+            String allowedResources = "/";
+            switch (verb) {
+                case "GET": allowedResources = (String) claims.get("allowedResources");
+                    break;
+                case "POST": allowedResources = (String) claims.get("allowedCreateResources");
+                    break;
+                case "PUT": allowedResources = (String) claims.get("allowedUpdateResources");
+                    break;
+                case "DELETE": allowedResources = (String) claims.get("allowedDeleteResources");
+            }
+
+            for(String s : allowedResources.split(",")) {
+                if(uri.trim().toLowerCase().startsWith(s.trim().toLowerCase())) {
                     statusCode = HttpServletResponse.SC_ACCEPTED;
+                    break;
                 }
             }
         } catch (Exception e) {
