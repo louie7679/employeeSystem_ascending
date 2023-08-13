@@ -17,6 +17,7 @@ import java.util.List;
 @Repository
 public class EmployeeHibernateDaoImpl implements IEmployeeDao{
     private static final Logger logger = LoggerFactory.getLogger(EmployeeHibernateDaoImpl.class);
+
     @Override
     public void save(Employee employee) {
         Transaction transaction = null;
@@ -53,7 +54,19 @@ public class EmployeeHibernateDaoImpl implements IEmployeeDao{
 
     @Override
     public Employee getById(Long id) {
-        return null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        String hql = "FROM Employee e where id = :Id";
+        try {
+            Query<Employee> query = session.createQuery(hql);
+            query.setParameter("Id", id);
+            Employee result = query.uniqueResult();
+            session.close();
+            return result;
+        } catch (HibernateException e) {
+            logger.error("Session close exception try again", e);
+            session.close();
+            return null;
+        }
     }
 
     @Override
