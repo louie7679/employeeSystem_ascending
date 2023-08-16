@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -18,10 +19,13 @@ import java.util.List;
 public class EmployeeHibernateDaoImpl implements IEmployeeDao{
     private static final Logger logger = LoggerFactory.getLogger(EmployeeHibernateDaoImpl.class);
 
+    @Autowired
+    private SessionFactory sessionFactory;
+
     @Override
     public void save(Employee employee) {
         Transaction transaction = null;
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         try {
             transaction = session.beginTransaction();
             session.save(employee);
@@ -38,8 +42,10 @@ public class EmployeeHibernateDaoImpl implements IEmployeeDao{
     @Override
     public List<Employee> getEmployees() {
         List<Employee> result = new ArrayList<>();
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+//      SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+//      Session s = sessionFactory.openSession();
         Session s = sessionFactory.openSession();
+
         String hql = "FROM Employee";
         try {
             Query<Employee> query = s.createQuery(hql);
@@ -54,7 +60,7 @@ public class EmployeeHibernateDaoImpl implements IEmployeeDao{
 
     @Override
     public Employee getById(Long id) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         String hql = "FROM Employee e where id = :Id";
         try {
             Query<Employee> query = session.createQuery(hql);
@@ -71,10 +77,9 @@ public class EmployeeHibernateDaoImpl implements IEmployeeDao{
 
     @Override
     public void delete(Employee employee) {
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Session session = sessionFactory.openSession();
         Transaction transaction;
         try {
-            Session session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             session.delete(employee);
             transaction.commit();

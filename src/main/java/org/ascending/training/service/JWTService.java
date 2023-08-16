@@ -66,7 +66,6 @@ public class JWTService {
         logger.info("======, allowedUpdateResources = {}", allowedUpdateResources);
         logger.info("======, allowedDeleteResources = {}", allowedDeleteResources);
 
-
         claims.put("allowedReadResources", allowedReadResources.replaceAll(",$", ""));
         claims.put("allowedCreateResources", allowedCreateResources.replaceAll(",$", ""));
         claims.put("allowedUpdateResources", allowedUpdateResources.replaceAll(",$", ""));
