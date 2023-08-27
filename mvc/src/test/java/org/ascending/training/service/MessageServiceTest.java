@@ -31,7 +31,9 @@ public class MessageServiceTest {
     @Test
     public void sendMessageTest() {
         when(sqs.getQueueUrl(anyString())).thenReturn(getQueueUrlResult);
+
         messageService.sendMessage("hello world", 5);
+
         verify(sqs, times(1)).sendMessage(any(SendMessageRequest.class));
     }
 

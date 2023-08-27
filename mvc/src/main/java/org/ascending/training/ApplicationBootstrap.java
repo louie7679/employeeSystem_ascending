@@ -11,5 +11,3 @@ public class ApplicationBootstrap {
         SpringApplication.run(ApplicationBootstrap.class, args);
     }
 }
-
-
